@@ -4,10 +4,9 @@ import numpy as np
 import tensorflow as tf
 import time
 import pickle
-import make_env
+# import make_env
 
 import maddpg.common.tf_util as U
-from maddpg.common.mem_rrl import RRLCell, RRLCellTuple
 from maddpg.trainer.maddpg import MADDPGAgentTrainer, DDPGAgentTrainer
 import tensorflow.contrib.layers as layers
 from maddpg.common.config_args import parse_args, build_summaries
@@ -76,7 +75,7 @@ class ActorNetwork():
         return output, memory_new
 
 
-def make_env(scenario_name, arglist, benchmark=False):
+def make_env(scenario_name, benchmark=False):
     from multiagent.environment import MultiAgentEnv
     import multiagent.scenarios as scenarios
 
@@ -87,6 +86,7 @@ def make_env(scenario_name, arglist, benchmark=False):
     # create multiagent environment
     if benchmark:
         env = MultiAgentEnv(world, scenario.reset_world, scenario.reward, scenario.observation, scenario.benchmark_data)
+        print("yes")
     else:
         env = MultiAgentEnv(world, scenario.reset_world, scenario.reward, scenario.observation)
     return env
@@ -160,8 +160,6 @@ def train(arglist):
             # Reset memory on new episode
             if episode_step == 0:
                 memory_state_in = memory_init
-            else:
-                memory_state_in = memory_state_in
 
             # Populate actions, states for all agents
             action_n = []
@@ -280,6 +278,7 @@ def benchmark(arglist):
     bench_file = './exp_data/' + arglist.exp_name + '/' + arglist.benchmark_dir + '/' + arglist.exp_name + '.pkl'
     bench_load = open(bench_file, 'rb')
     bench_val = pickle.load(bench_load)
+    print(bench_val)
     bench_load.close()
 
     collision = 0
@@ -338,7 +337,7 @@ if __name__ == '__main__':
     exp_dir = os.path.join('./exp_data', arglist.exp_name)
     if not os.path.exists(exp_dir):
         os.makedirs(exp_dir)
-    if not arglist.benchmark or arglist.restore:
+    if not arglist.benchmark or arglist.restore or arglist.display:
         with open('./exp_data/' + arglist.exp_name + '/args.txt', 'w') as fp:
             json.dump(arglist.__dict__, fp, indent=2)
 

@@ -7,7 +7,6 @@ from maddpg.common.distributions import make_pdtype
 from maddpg import AgentTrainer, MAgentTrainer
 from maddpg.trainer.replay_buffer import ReplayBuffer, MAReplayBuffer
 from maddpg.common.config_args import parse_args
-from maddpg.common.mem_rrl import RRLCellTuple
 
 arglist = parse_args()
 

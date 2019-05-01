@@ -32,9 +32,9 @@
   "save_dir": "/policy/",
   "save_rate": 1000,
   "load_dir": "",
-  "restore": false,
-  "display": false,
-  "benchmark": false,
+  "restore": true,
+  "display": true,
+  "benchmark": true,
   "benchmark_iters": 100000,
   "benchmark_dir": "benchmark_files",
   "plots_dir": "learning_curves"
